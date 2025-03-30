@@ -4,8 +4,8 @@
   "description": "API to serve the web portfolio of game development company Gabisou.",
   "main": "app/server.ts",
   "scripts": {
-    "start": "node ts-node app/server.ts",
-    "dev": "nodemon ts-node --exec ts-node app/server.ts",
+    "start": "ts-node app/server.ts",
+    "dev": "nodemon --exec ts-node app/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Grupo 12 - DRP 03-PJI110-Sala 002",
