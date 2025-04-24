@@ -11,6 +11,7 @@
     "skipLibCheck": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "typeRoots": ["./node_modules/@types", "./app/@types"],
   },
   "include": ["app/**/*"],
   "exclude": ["node_modules", "dist"]
