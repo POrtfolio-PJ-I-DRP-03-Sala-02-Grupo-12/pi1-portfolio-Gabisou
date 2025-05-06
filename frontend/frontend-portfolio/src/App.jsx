@@ -2,13 +2,14 @@
 //import reactLogo from './assets/react.svg'
 //import viteLogo from '/vite.svg'
 //import './App.css'
+import Home from "./pages/Home";
 
 const App = () => {
   //const [count, setCount] = useState(0);
 
   return (
     <>
-      App
+      <Home />
       {/*
       <div>
         <a href="https://vite.dev" target="_blank">
