@@ -12,12 +12,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findAll = void 0;
+exports.findByUserName = exports.findAll = void 0;
 const connection_1 = __importDefault(require("./connection"));
 const findAll = () => __awaiter(void 0, void 0, void 0, function* () {
     const people = yield connection_1.default.execute('SELECT * FROM people');
     return people;
 });
 exports.findAll = findAll;
+const findByUserName = (userName) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const person = yield connection_1.default.execute(`SELECT * FROM people WHERE user_name = ?;
+        `, [userName]);
+        if (!person)
+            return null;
+        console.log(person[0][0]);
+        return person[0];
+    }
+    catch (error) {
+        throw new Error(error.message);
+    }
+});
+exports.findByUserName = findByUserName;
 const createNewPerson = (person) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const personFound = yield findByUserName(person.userName);
+        // if (personFound && personFound.userName === person.userName) return;
+    }
+    catch (error) {
+    }
 });
