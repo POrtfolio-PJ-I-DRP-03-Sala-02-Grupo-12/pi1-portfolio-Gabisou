@@ -68,7 +68,7 @@ const deleteImage = async (id: number) => {
     const excludedImage = await connection.execute(
       `
         DELETE FROM game_images
-        WHERE id = ?
+        WHERE id = ?;
       `,
       [id]
     );
