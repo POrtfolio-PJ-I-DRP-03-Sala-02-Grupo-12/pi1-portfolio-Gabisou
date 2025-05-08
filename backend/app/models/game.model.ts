@@ -8,7 +8,7 @@ const findAll = async () => {
           i.id, i.title, i.description, i.url
         FROM games AS g
         LEFT JOIN game_images AS i
-        ON g.id = i.game_id
+        ON g.id = i.game_id;
       `,
     );
 
@@ -22,9 +22,9 @@ const findById = async (idToSearch: number) => {
         SELECT g.id, g.title, g.description, g.link_name, g.link_url,
           i.id, i.title, i.description, i.url
         FROM games AS g
-        WHERE g.id = ?;
+        WHERE g.id = ?
         LEFT JOIN game_images AS i
-        ON g.id = i.game_id
+        ON g.id = i.game_id;
       `,
       [idToSearch]
     );
@@ -78,7 +78,7 @@ const deleteGame = async (id: number) => {
     const excludedGame = await connection.execute(
       `
         DELETE FROM games
-        WHERE id = ?
+        WHERE id = ?;
       `,
       [id]
     );
