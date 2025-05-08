@@ -4,7 +4,7 @@ import Header from "../components/Header";
 const Home = () => {
   return (
     <>
-      <Box component="home" sx={styles.home}>
+      <Box component="home">
         <Header />
       </Box>
     </>

@@ -4,8 +4,8 @@ import "./NavBar.css";
 const NavBar = () => {
   return (
     <>
-      <Box component="nav" sx={styles.nav}>
-        <ul style={styles.ulNav}>
+      <Box component="navBar">
+        <ul>
           <li>Home</li>
           <li>Works</li>
           <li>Contact</li>
@@ -13,10 +13,6 @@ const NavBar = () => {
       </Box>
     </>
   );
-};
-
-const styles = {
-  nav: {},
 };
 
 export default NavBar;
