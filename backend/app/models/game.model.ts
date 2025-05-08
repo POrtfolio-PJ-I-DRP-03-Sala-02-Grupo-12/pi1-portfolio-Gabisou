@@ -3,7 +3,13 @@ import connection from "./connection";
 
 const findAll = async () => {
     const games = await connection.execute(
-      'SELECT * FROM games',
+      `
+        SELECT g.id, g.title, g.description, g.link_name, g.link_url,
+          i.id, i.title, i.description, i.url
+        FROM games AS g
+        LEFT JOIN game_images AS i
+        ON g.id = i.game_id
+      `,
     );
 
     return games;
@@ -12,8 +18,13 @@ const findAll = async () => {
 const findById = async (idToSearch: number) => {
   try {
     const foundGame = await connection.execute(
-      `SELECT * FROM games
-        WHERE id = ?;
+      `
+        SELECT g.id, g.title, g.description, g.link_name, g.link_url,
+          i.id, i.title, i.description, i.url
+        FROM games AS g
+        WHERE g.id = ?;
+        LEFT JOIN game_images AS i
+        ON g.id = i.game_id
       `,
       [idToSearch]
     );
