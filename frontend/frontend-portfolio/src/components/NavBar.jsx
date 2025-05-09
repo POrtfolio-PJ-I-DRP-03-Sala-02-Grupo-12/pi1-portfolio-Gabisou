@@ -1,16 +1,13 @@
-import Box from "@mui/material/Box";
 import "./NavBar.css";
 
 const NavBar = () => {
   return (
     <>
-      <Box component="navBar">
+      <div>
         <ul>
-          <li>Home</li>
-          <li>Works</li>
-          <li>Contact</li>
+          <li>Home Page</li>
         </ul>
-      </Box>
+      </div>
     </>
   );
 };

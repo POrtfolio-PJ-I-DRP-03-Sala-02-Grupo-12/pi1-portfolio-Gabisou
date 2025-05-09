@@ -1,13 +1,12 @@
-import Box from "@mui/material/Box";
 import "./Content.css";
 
 const Content = () => {
   return (
     <>
-      <Box component="content">
+      <div>
         {/* <h1>{title}</h1> 
-        {children}*/}
-      </Box>
+          {children}*/}
+      </div>
     </>
   );
 };
