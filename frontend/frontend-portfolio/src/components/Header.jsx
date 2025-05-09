@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import gabisouLogo from "../assets/img/gabisoulogo.png";
 
 const Header = () => {
@@ -6,15 +7,17 @@ const Header = () => {
     fontFamily: "Arial, Helvetica, sans-serif",
   };
 
-  const titleStyle = {
-    color: "#FFFFFF",
+  const logoStyle = {
+    width: "150px",
+    height: "auto",
   };
 
   return (
     <>
       <div style={containerStyle}>
-        <h1 style={titleStyle}>Header</h1>
-        {/* <img src="gabisouLogo" alt="Logo Empresa" />         Verificar o que deu errado*/}
+        <Link to="/" aria-label="Home">
+          <img src={gabisouLogo} style={logoStyle} alt="Logo Gabisou" />
+        </Link>
       </div>
     </>
   );
