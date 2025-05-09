@@ -1,5 +1,3 @@
-import "./Content.css";
-
 const Content = () => {
   return (
     <>
