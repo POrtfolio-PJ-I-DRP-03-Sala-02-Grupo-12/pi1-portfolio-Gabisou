@@ -1,9 +1,16 @@
+import ProjectCard from "../components/ProjectCard";
+
 const Content = () => {
+  const contentStyle = {
+    backgroundColor: "#C6BEEE",
+  };
+
   return (
     <>
-      <div>
-        {/* <h1>{title}</h1> 
-          {children}*/}
+      <div style={contentStyle}>
+        <h1>Projects</h1>
+        <button>Add Projects</button>
+        <ProjectCard />
       </div>
     </>
   );
