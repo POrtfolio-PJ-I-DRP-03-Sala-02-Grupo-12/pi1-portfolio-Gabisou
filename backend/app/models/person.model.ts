@@ -1,4 +1,4 @@
-import { FieldPacket, RowDataPacket } from "mysql2";
+import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2";
 import IPerson from "../interfaces/IPerson";
 import connection from "./connection";
 
@@ -10,34 +10,34 @@ const findAll = async (): Promise<IPerson[]> => {
     return rows as IPerson[];
 };
 
-const findById = async (idToSearch: number) => {
+const findById = async (idToSearch: number): Promise<IPerson | null> => {
   try {
-    const foundPerson = await connection.execute(
+    const [rows]: [RowDataPacket[], FieldPacket[]] = await connection.query(
       `SELECT * FROM people
         WHERE id = ?;
       `,
       [idToSearch]
     );
   
-    if (!foundPerson) return null;
+    if (!rows[0] || rows.length === 0) return null;
   
-    return foundPerson;  
+    return rows[0] as IPerson;
   } catch (error) {
     throw new Error((error as Error).message);
   }
 };
 
-const findByUserName = async (userName: string) => {
+const findByUserName = async (userName: string): Promise<IPerson | null> => {
     try {
-      const person = await connection.execute(
+      const [rows]: [RowDataPacket[], FieldPacket[]] = await connection.query(
         `SELECT * FROM people WHERE user_name = ?;
         `,
         [userName],
       );
 
-      if (!person) return null;
+      if (!rows[0] || rows.length === 0) return null;
       
-      return person[0];
+      return rows[0] as IPerson;
     } catch (error) {
       throw new Error((error as Error).message);
     }
@@ -47,24 +47,29 @@ const createNewPerson = async (person: IPerson) => {
   try {
     const { name, userName, password } = person;
 
-    const newPerson = await connection.execute(
+    const [result]: [ResultSetHeader, FieldPacket[]] = await connection.query(
       `INSERT INTO people (name, user_name, password)
         VALUES (?, ?, ?);
       `,
       [name, userName, password]
     );
 
-    if (!newPerson) return null
+    if (!result) return null
+
+    return {
+      id: result.insertId,
+      ...person,
+    };
   } catch (error) {
     throw new Error((error as Error).message)
   }
 };
 
-const updatePerson = async (personToUpdate: IPerson, id: number) => {
+const updatePerson = async (personToUpdate: IPerson, id: number): Promise<ResultSetHeader | null> => {
   try {
     const { name, userName, password } = personToUpdate;
 
-    const updatedPerson = await connection.execute(
+    const [result]: [ResultSetHeader, FieldPacket[]] = await connection.query(
       `
         UPDATE people
         SET name = ?, user_name = ?, password = ?
@@ -73,15 +78,17 @@ const updatePerson = async (personToUpdate: IPerson, id: number) => {
       [name, userName, password, id]
     );
 
-    if (!updatedPerson) return null;
+    if (!result) return null;
+
+    return result;
   } catch (error) {
     throw new Error((error as Error).message);
   }
 };
 
-const deletePerson = async (id: number) => {
+const deletePerson = async (id: number): Promise<ResultSetHeader | null> => {
   try {
-    const excludedPerson = await connection.execute(
+    const [result]: [ResultSetHeader, FieldPacket[]] = await connection.query(
       `
         DELETE FROM people
         WHERE id = ?
@@ -89,9 +96,9 @@ const deletePerson = async (id: number) => {
       [id]
     );
 
-    if (!excludedPerson) return null;
+    if (!result) return null;
 
-    return excludedPerson;
+    return result;
   } catch (error) {
     throw new Error((error as Error).message);
   }
