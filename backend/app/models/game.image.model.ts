@@ -1,17 +1,18 @@
+import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2";
 import IGameImage from "../interfaces/IGameImage";
 import connection from "./connection";
 
-const findAll = async () => {
-    const games = await connection.execute(
+const findAll = async (): Promise<IGameImage[]> => {
+    const [rows]: [RowDataPacket[], FieldPacket[]] = await connection.query(
       'SELECT * FROM game_images;'
     );
 
-    return games;
+    return rows as IGameImage[];
 };
 
-const findById = async (idToSearch: number) => {
+const findById = async (idToSearch: number): Promise<IGameImage | null> => {
   try {
-    const foundGameImage = await connection.execute(
+    const [rows]: [RowDataPacket[], FieldPacket[]] = await connection.query(
       `
         SELECT * FROM game_images
         WHERE id = ?;
@@ -19,36 +20,41 @@ const findById = async (idToSearch: number) => {
       [idToSearch]
     );
   
-    if (!foundGameImage) return null;
+    if (!rows[0] || rows.length === 0) return null;
   
-    return foundGameImage;  
+    return rows[0] as IGameImage;
   } catch (error) {
     throw new Error((error as Error).message);
   }
 };
 
-const createNewImage = async (image: IGameImage) => {
+const createNewImage = async (image: IGameImage): Promise<IGameImage | null> => {
   try {
     const { title, description, url, gameId } = image;
 
-    const newImage = await connection.execute(
+    const [result]: [ResultSetHeader, FieldPacket[]] = await connection.query(
       `INSERT INTO game_images (title, description, url, game_id)
         VALUES (?, ?, ?, ?);
       `,
       [title, description, url, gameId]
     );
 
-    if (!newImage) return null
+    if (!result) return null
+
+    return {
+      id: result.insertId,
+      ...image,
+    }
   } catch (error) {
     throw new Error((error as Error).message)
   }
 };
 
-const updateImage = async (imageToUpdate: IGameImage, id: number) => {
+const updateImage = async (imageToUpdate: IGameImage, id: number): Promise<ResultSetHeader | null> => {
   try {
     const { title, description, url, gameId } = imageToUpdate;
 
-    const updatedImage = await connection.execute(
+    const [result]: [ResultSetHeader, FieldPacket[]] = await connection.query(
       `
         UPDATE game_images
         SET title = ?, description = ?, url = ?, game_id = ?
@@ -57,15 +63,17 @@ const updateImage = async (imageToUpdate: IGameImage, id: number) => {
       [title, description, url, gameId, id]
     );
 
-    if (!updatedImage) return null;
+    if (!result) return null;
+
+    return result;
   } catch (error) {
     throw new Error((error as Error).message);
   }
 };
 
-const deleteImage = async (id: number) => {
+const deleteImage = async (id: number): Promise<ResultSetHeader | null> => {
   try {
-    const excludedImage = await connection.execute(
+    const [result]: [ResultSetHeader, FieldPacket[]] = await connection.query(
       `
         DELETE FROM game_images
         WHERE id = ?;
@@ -73,9 +81,9 @@ const deleteImage = async (id: number) => {
       [id]
     );
 
-    if (!excludedImage) return null;
+    if (!result) return null;
 
-    return excludedImage;
+    return result;
   } catch (error) {
     throw new Error((error as Error).message);
   }
