@@ -38,7 +38,7 @@ const findById = async (idToSearch: number): Promise<IGame | null> => {
   }
 };
 
-const createNewGame = async (game: IGame) => {
+const createNewGame = async (game: IGame): Promise<IGame | null> => {
   try {
     const { title, description, linkName, linkUrl } = game;
 
