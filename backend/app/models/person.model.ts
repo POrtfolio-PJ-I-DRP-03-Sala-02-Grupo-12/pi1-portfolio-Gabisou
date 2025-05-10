@@ -1,12 +1,13 @@
+import { FieldPacket, RowDataPacket } from "mysql2";
 import IPerson from "../interfaces/IPerson";
 import connection from "./connection";
 
-const findAll = async () => {
-    const people = await connection.execute(
-      'SELECT * FROM people',
+const findAll = async (): Promise<IPerson[]> => {
+    const [rows]: [RowDataPacket[], FieldPacket[]] = await connection.query(
+      'SELECT * FROM people;',
     );
 
-    return people;
+    return rows as IPerson[];
 };
 
 const findById = async (idToSearch: number) => {
