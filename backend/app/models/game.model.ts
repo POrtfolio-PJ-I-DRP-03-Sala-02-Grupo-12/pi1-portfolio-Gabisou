@@ -1,8 +1,9 @@
+import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2";
 import IGame from "../interfaces/IGame";
 import connection from "./connection";
 
-const findAll = async () => {
-    const games = await connection.execute(
+const findAll = async (): Promise<IGame[]> => {
+    const [rows]: [RowDataPacket[], FieldPacket[]] = await connection.query(
       `
         SELECT g.id, g.title, g.description, g.link_name, g.link_url,
           i.id, i.title, i.description, i.url
@@ -12,12 +13,12 @@ const findAll = async () => {
       `,
     );
 
-    return games;
+    return rows as IGame[];
 };
 
-const findById = async (idToSearch: number) => {
+const findById = async (idToSearch: number): Promise<IGame | null> => {
   try {
-    const foundGame = await connection.execute(
+    const [rows]: [RowDataPacket[], FieldPacket[]] = await connection.query(
       `
         SELECT g.id, g.title, g.description, g.link_name, g.link_url,
           i.id, i.title, i.description, i.url
@@ -29,9 +30,9 @@ const findById = async (idToSearch: number) => {
       [idToSearch]
     );
   
-    if (!foundGame) return null;
+    if (!rows[0] || rows.length === 0) return null;
   
-    return foundGame;  
+    return rows[0] as IGame;
   } catch (error) {
     throw new Error((error as Error).message);
   }
@@ -41,24 +42,29 @@ const createNewGame = async (game: IGame) => {
   try {
     const { title, description, linkName, linkUrl } = game;
 
-    const newGame = await connection.execute(
+    const [result]: [ResultSetHeader, FieldPacket[]] = await connection.query(
       `INSERT INTO games (title, description, linkName, linkUrl)
         VALUES (?, ?, ?, ?);
       `,
       [title, description, linkName, linkUrl]
     );
 
-    if (!newGame) return null
+    if (!result) return null
+
+    return {
+      id: result.insertId,
+      ...game,
+    }
   } catch (error) {
     throw new Error((error as Error).message)
   }
 };
 
-const updateGame = async (gameToUpdate: IGame, id: number) => {
+const updateGame = async (gameToUpdate: IGame, id: number): Promise<ResultSetHeader | null> => {
   try {
     const { title, description, linkName, linkUrl } = gameToUpdate;
 
-    const updatedGame = await connection.execute(
+    const [result]: [ResultSetHeader, FieldPacket[]] = await connection.query(
       `
         UPDATE games
         SET title = ?, description = ?, link_name = ?, link_url = ?
@@ -67,15 +73,17 @@ const updateGame = async (gameToUpdate: IGame, id: number) => {
       [title, description, linkName, linkUrl, id]
     );
 
-    if (!updatedGame) return null;
+    if (!result) return null;
+
+    return result;
   } catch (error) {
     throw new Error((error as Error).message);
   }
 };
 
-const deleteGame = async (id: number) => {
+const deleteGame = async (id: number): Promise<ResultSetHeader | null> => {
   try {
-    const excludedGame = await connection.execute(
+    const [result]: [ResultSetHeader, FieldPacket[]] = await connection.execute(
       `
         DELETE FROM games
         WHERE id = ?;
@@ -83,9 +91,9 @@ const deleteGame = async (id: number) => {
       [id]
     );
 
-    if (!excludedGame) return null;
+    if (!result) return null;
 
-    return excludedGame;
+    return result;
   } catch (error) {
     throw new Error((error as Error).message);
   }
