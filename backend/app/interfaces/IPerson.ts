@@ -1,6 +1,6 @@
 export default interface IPerson {
-    id: string;
+    id?: string;
     name: string;
     userName: string;
-    password: string;
+    password?: string;
 }
