@@ -8,7 +8,6 @@ const ProjectCard = () => {
     maxWidth: "350px",
     borderRadius: "16px",
     overflow: "hidden",
-    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
     backgroundColor: "#ffffff",
     transition: "transform 0.2s ease",
     transform: isHovered ? "translateY(-4px)" : "none",
