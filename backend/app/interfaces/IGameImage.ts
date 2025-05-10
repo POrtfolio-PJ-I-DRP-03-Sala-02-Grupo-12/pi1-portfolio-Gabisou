@@ -1,5 +1,5 @@
 export default interface IGameImage {
-  id: number;
+  id?: number;
   title: string;
   description: string;
   url: string;
