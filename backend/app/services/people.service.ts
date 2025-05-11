@@ -107,4 +107,5 @@ export {
   findPersonByUserName,
   createNewPerson,
   updatePerson,
+  deletePerson,
 };
