@@ -1,4 +1,6 @@
+import * as personModel from "./person.model";
 
-module.exports = {
-    personModel: require('./person.model'),
+
+export {
+    personModel,
 };
