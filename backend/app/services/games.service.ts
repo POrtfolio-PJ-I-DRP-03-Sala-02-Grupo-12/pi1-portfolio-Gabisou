@@ -43,7 +43,7 @@ const createNewGame = async (game: IGame): Promise<IGame | string> => {
 
     return newGame;
   } catch (error) {
-    return `Ocorreu um erro no registro de novo usuário: ${error}`;
+    return `Ocorreu um erro no registro de novo jogo: ${error}`;
   }
 };
 
@@ -58,7 +58,7 @@ const updateGame = async (gameToUpdate: IGame, id: number): Promise<ResultSetHea
     
     return updatedGame;
   } catch (error) {
-    return `Ocorreu um erro na alteração de dados de usuário. ${error}`;
+    return `Ocorreu um erro na alteração de dados do jogo. ${error}`;
   }
 };
 
@@ -67,14 +67,14 @@ const deleteGame = async (id: number): Promise<ResultSetHeader | string> => {
     const excludedGame: ResultSetHeader | null = await gameModel.deleteGame(id);
 
     if (!excludedGame) {
-      return `Não foi possível excluir dados da pessoa com o id ${id}`;
+      return `Não foi possível excluir dados do jogo com o id ${id}`;
     }
 
     console.log(excludedGame);
     
     return excludedGame;
   } catch (error) {
-    return `Ocorreu um erro ao tentar excluir um usuário do banco de dados. ${error}`;
+    return `Ocorreu um erro ao tentar excluir o jogo do banco de dados. ${error}`;
   }
 };
 
