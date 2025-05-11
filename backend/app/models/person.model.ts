@@ -43,7 +43,7 @@ const findByUserName = async (userName: string): Promise<IPerson | null> => {
     }
 };
 
-const createNewPerson = async (person: IPerson) => {
+const createNewPerson = async (person: IPerson): Promise<IPerson | null> => {
   try {
     const { name, userName, password } = person;
 
