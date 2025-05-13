@@ -10,6 +10,50 @@ const Content = () => {
   };
 
   const [ModalIsOpen, setModalIsOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    project_name: "",
+    project_description: "",
+    link_name: "",
+    link_url: "",
+    image_name: "",
+    image_description: "",
+    image_url: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch("http://localhost:3001/api/jogos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (response.ok) {
+      alert("Project added successfully!");
+      setFormData({
+        project_name: "",
+        project_description: "",
+        link_name: "",
+        link_url: "",
+        image_name: "",
+        image_description: "",
+        image_url: "",
+      });
+    } else {
+      alert("Error to add project.");
+    }
+  };
 
   return (
     <>
@@ -26,7 +70,7 @@ const Content = () => {
               className="modal-styles-content"
               onClick={(e) => e.stopPropagation()}
             >
-              <form>
+              <form onSubmit={handleSubmit}>
                 {/* Game info  */}
                 <div>
                   <label for="project_name">Project name:</label>
@@ -34,6 +78,8 @@ const Content = () => {
                     type="text"
                     id="project_name"
                     name="project_name"
+                    value={formData.project_name}
+                    onChange={handleChange}
                     required
                   ></input>
                 </div>
@@ -43,6 +89,8 @@ const Content = () => {
                     type="text"
                     id="project_description"
                     name="project_description"
+                    value={formData.project_description}
+                    onChange={handleChange}
                     required
                   ></input>
                 </div>
@@ -52,6 +100,8 @@ const Content = () => {
                     type="text"
                     id="link_name"
                     name="link_name"
+                    value={formData.link_name}
+                    onChange={handleChange}
                     required
                   ></input>
                 </div>
@@ -61,6 +111,8 @@ const Content = () => {
                     type="url"
                     id="link_url"
                     name="link_url"
+                    value={formData.link_url}
+                    onChange={handleChange}
                     required
                   ></input>
                 </div>
@@ -71,6 +123,8 @@ const Content = () => {
                     type="text"
                     id="image_name"
                     name="image_name"
+                    value={formData.image_name}
+                    onChange={handleChange}
                     required
                   ></input>
                 </div>
@@ -80,6 +134,8 @@ const Content = () => {
                     type="text"
                     id="image_description"
                     name="image_description"
+                    value={formData.image_description}
+                    onChange={handleChange}
                     required
                   ></input>
                 </div>
@@ -87,8 +143,10 @@ const Content = () => {
                   <label for="image_url">Image link url:</label>
                   <input
                     type="text"
-                    id="link_url"
-                    name="link_url"
+                    id="image_url"
+                    name="image_url"
+                    value={formData.image_url}
+                    onChange={handleChange}
                     required
                   ></input>
                 </div>
