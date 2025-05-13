@@ -3,7 +3,6 @@ import "./ProjectCard.css";
 
 const ProjectCard = () => {
   const [isHovered, setIsHovered] = useState(false);
-  const [ModalIsOpen, setModalIsOpen] = useState(false);
 
   return (
     <>
