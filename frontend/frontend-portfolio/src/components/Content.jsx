@@ -1,5 +1,6 @@
-import ProjectCard from "../components/ProjectCard";
 import AddProjectForm from "../components/AddProjectForm";
+import ListAllProjectsCards from "../components/ListAllProjectsCards";
+import ProjectCard from "../components/ProjectCard";
 
 const Content = () => {
   const contentStyle = {
@@ -12,6 +13,7 @@ const Content = () => {
     <>
       <div style={contentStyle}>
         <AddProjectForm />
+        {/* <ListAllProjectsCards /> */}
         <ProjectCard />
       </div>
     </>
