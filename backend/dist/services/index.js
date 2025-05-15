@@ -33,10 +33,10 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.gameImageModel = exports.gameModel = exports.personModel = void 0;
-const personModel = __importStar(require("./person.model"));
-exports.personModel = personModel;
-const gameModel = __importStar(require("./game.model"));
-exports.gameModel = gameModel;
-const gameImageModel = __importStar(require("./game.image.model"));
-exports.gameImageModel = gameImageModel;
+exports.gameImagesService = exports.gamesService = exports.peopleService = void 0;
+const peopleService = __importStar(require("./people.service"));
+exports.peopleService = peopleService;
+const gamesService = __importStar(require("./games.service"));
+exports.gamesService = gamesService;
+const gameImagesService = __importStar(require("./game.images.service"));
+exports.gameImagesService = gameImagesService;

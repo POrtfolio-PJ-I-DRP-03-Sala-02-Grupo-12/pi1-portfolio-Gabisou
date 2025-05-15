@@ -12,21 +12,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findByUserName = exports.findAll = void 0;
+exports.deletePerson = exports.updatePerson = exports.createNewPerson = exports.findByUserName = exports.findById = exports.findAll = void 0;
 const connection_1 = __importDefault(require("./connection"));
 const findAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    const people = yield connection_1.default.execute('SELECT * FROM people');
-    return people;
+    const [rows] = yield connection_1.default.query('SELECT * FROM people;');
+    return rows;
 });
 exports.findAll = findAll;
+const findById = (idToSearch) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const [rows] = yield connection_1.default.query(`SELECT * FROM people
+        WHERE id = ?;
+      `, [idToSearch]);
+        if (!rows[0] || rows.length === 0)
+            return null;
+        return rows[0];
+    }
+    catch (error) {
+        throw new Error(error.message);
+    }
+});
+exports.findById = findById;
 const findByUserName = (userName) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const person = yield connection_1.default.execute(`SELECT * FROM people WHERE user_name = ?;
+        userName = userName.replace(/"/g, '');
+        const [rows] = yield connection_1.default.query(`
+          SELECT * FROM people
+            WHERE LOWER(user_name) = TRIM(LOWER(?));
         `, [userName]);
-        if (!person)
+        if (!rows[0] || rows.length === 0)
             return null;
-        console.log(person[0][0]);
-        return person[0];
+        return rows[0];
     }
     catch (error) {
         throw new Error(error.message);
@@ -35,9 +51,56 @@ const findByUserName = (userName) => __awaiter(void 0, void 0, void 0, function*
 exports.findByUserName = findByUserName;
 const createNewPerson = (person) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const personFound = yield findByUserName(person.userName);
-        // if (personFound && personFound.userName === person.userName) return;
+        const { name, userName, password } = person;
+        const [result] = yield connection_1.default.query(`INSERT INTO people (name, user_name, password)
+        VALUES (?, ?, ?);
+      `, [name, userName, password]);
+        if (!result)
+            return null;
+        return Object.assign({ id: result.insertId }, person);
     }
     catch (error) {
+        throw new Error(error.message);
     }
 });
+exports.createNewPerson = createNewPerson;
+const updatePerson = (personToUpdate, id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { name, userName, password } = personToUpdate;
+        const [result] = (!password || password.length === 0)
+            ?
+                yield connection_1.default.query(`
+          UPDATE people
+          SET name = ?, user_name = ?
+          WHERE id = ?;
+        `, [name, userName, id])
+            :
+                yield connection_1.default.query(`
+          UPDATE people
+          SET name = ?, user_name = ?, password = ?
+          WHERE id = ?;
+        `, [name, userName, password, id]);
+        if (!result)
+            return null;
+        return result;
+    }
+    catch (error) {
+        throw new Error(error.message);
+    }
+});
+exports.updatePerson = updatePerson;
+const deletePerson = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const [result] = yield connection_1.default.query(`
+        DELETE FROM people
+        WHERE id = ?
+      `, [id]);
+        if (!result)
+            return null;
+        return result;
+    }
+    catch (error) {
+        throw new Error(error.message);
+    }
+});
+exports.deletePerson = deletePerson;
