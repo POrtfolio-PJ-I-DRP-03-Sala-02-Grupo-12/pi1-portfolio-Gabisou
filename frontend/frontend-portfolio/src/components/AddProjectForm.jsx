@@ -1,4 +1,3 @@
-import "./AddProjectForm.css";
 import React, { useState } from "react";
 // review variable names and API adress
 const AddProjectForm = () => {
@@ -63,7 +62,7 @@ const AddProjectForm = () => {
             experience and cross-platform compatibility.
           </h2>
           <button
-            className="max-h-16 min-w-30 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            className="max-h-16 min-w-30 px-6 py-2 bg-stone-800 text-stone-100 rounded-lg hover:bg-stone-950"
             onClick={() => setModalIsOpen(true)}
           >
             Add Projects
@@ -72,19 +71,28 @@ const AddProjectForm = () => {
 
         {ModalIsOpen && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-indigo-500 bg-opacity-50"
             onClick={() => setModalIsOpen(false)}
           >
             <div
-              className="bg-white w-full max-w-lg rounded-2xl p-6 relative"
+              className="bg-stone-800 border-2 border-stone-500 w-full max-w-lg rounded-2xl p-6 relative"
               onClick={(e) => e.stopPropagation()}
             >
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="flex justify-end">
+                <span
+                  className="w-10 h-10 text-4xl flex justify-center items-center py-2 px-2 text-stone-100"
+                  onClick={() => setModalIsOpen(false)}
+                >
+                  &times;
+                </span>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-2">
                 {/* Game info  */}
                 <div>
                   <label
                     for="project_name"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-stone-100"
                   >
                     Project name:
                   </label>
@@ -95,11 +103,16 @@ const AddProjectForm = () => {
                     value={formData.project_name}
                     onChange={handleChange}
                     required
-                    className="mt-1 w-full border border-b-gray-950 rounded-lg px-4 py-2"
+                    className="mt-1 w-full bg-stone-100 rounded-lg px-4 py-1"
                   ></input>
                 </div>
                 <div>
-                  <label for="project_description">Project description:</label>
+                  <label
+                    for="project_description"
+                    className="block text-sm font-medium text-stone-100"
+                  >
+                    Project description:
+                  </label>
                   <input
                     type="text"
                     id="project_description"
@@ -107,10 +120,16 @@ const AddProjectForm = () => {
                     value={formData.project_description}
                     onChange={handleChange}
                     required
+                    className="mt-1 w-full bg-stone-100 rounded-lg px-4 py-1"
                   ></input>
                 </div>
                 <div>
-                  <label for="link_name">Project link name:</label>
+                  <label
+                    for="link_name"
+                    className="block text-sm font-medium text-stone-100"
+                  >
+                    Project link name:
+                  </label>
                   <input
                     type="text"
                     id="link_name"
@@ -118,10 +137,16 @@ const AddProjectForm = () => {
                     value={formData.link_name}
                     onChange={handleChange}
                     required
+                    className="mt-1 w-full bg-stone-100 rounded-lg px-4 py-1"
                   ></input>
                 </div>
                 <div>
-                  <label for="link_url">Project link url:</label>
+                  <label
+                    for="link_url"
+                    className="block text-sm font-medium text-stone-100"
+                  >
+                    Project link url:
+                  </label>
                   <input
                     type="url"
                     id="link_url"
@@ -129,11 +154,17 @@ const AddProjectForm = () => {
                     value={formData.link_url}
                     onChange={handleChange}
                     required
+                    className="mt-1 w-full bg-stone-100 rounded-lg px-4 py-1"
                   ></input>
                 </div>
                 {/* Images Game info  */}
                 <div>
-                  <label for="image_name">Image name:</label>
+                  <label
+                    for="image_name"
+                    className="block text-sm font-medium text-stone-100"
+                  >
+                    Image name:
+                  </label>
                   <input
                     type="text"
                     id="image_name"
@@ -141,10 +172,16 @@ const AddProjectForm = () => {
                     value={formData.image_name}
                     onChange={handleChange}
                     required
+                    className="mt-1 w-full bg-stone-100 rounded-lg px-4 py-1"
                   ></input>
                 </div>
                 <div>
-                  <label for="image_description">Image description:</label>
+                  <label
+                    for="image_description"
+                    className="block text-sm font-medium text-stone-100"
+                  >
+                    Image description:
+                  </label>
                   <input
                     type="text"
                     id="image_description"
@@ -152,10 +189,16 @@ const AddProjectForm = () => {
                     value={formData.image_description}
                     onChange={handleChange}
                     required
+                    className="mt-1 w-full bg-stone-100 rounded-lg px-4 py-1"
                   ></input>
                 </div>
                 <div>
-                  <label for="image_url">Image link url:</label>
+                  <label
+                    for="image_url"
+                    className="block text-sm font-medium text-stone-100"
+                  >
+                    Image link url:
+                  </label>
                   <input
                     type="text"
                     id="image_url"
@@ -163,24 +206,18 @@ const AddProjectForm = () => {
                     value={formData.image_url}
                     onChange={handleChange}
                     required
+                    className="mt-1 w-full bg-stone-100 rounded-lg px-4 py-1"
                   ></input>
                 </div>
                 <div className="justify-self-center">
                   <button
                     type="submit"
-                    className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                    className="mt-3 px-6 py-1 bg-indigo-600 text-stone-100 border-1 border-stone-500 rounded-lg hover:bg-indigo-800"
                   >
                     Add Project
                   </button>
                 </div>
               </form>
-
-              <span
-                className="modal-styles-closeBtn"
-                onClick={() => setModalIsOpen(false)}
-              >
-                &times;
-              </span>
             </div>
           </div>
         )}

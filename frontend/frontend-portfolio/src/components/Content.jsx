@@ -5,7 +5,7 @@ import ProjectCard from "../components/ProjectCard";
 const Content = () => {
   return (
     <>
-      <div className="bg-indigo-900">
+      <div className="bg-indigo-500">
         <AddProjectForm />
         {/* <ListAllProjectsCards /> */}
         <ProjectCard />
