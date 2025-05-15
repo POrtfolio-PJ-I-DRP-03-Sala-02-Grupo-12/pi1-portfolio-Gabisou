@@ -1,10 +1,10 @@
-.card-style {
+/* .card-style { 
   width: 100%;
   max-width: 350px;
   border-radius: 16px;
   overflow: hidden;
   background-color: ffffff;
-}
+}*/
 
 .card-img-style {
   width: 100%;
@@ -17,11 +17,15 @@
 }
 
 .card-title-style {
+  @apply text-xl font-medium text-black;
+}
+/*  
+.card-title-style {
   font-size: 1.25rem;
   font-weight: 600;
   margin: 0;
   color: 333;
-}
+}*/
 
 .card-subtitle-style {
   font-size: 0.95rem;

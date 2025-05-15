@@ -3,15 +3,9 @@ import ListAllProjectsCards from "../components/ListAllProjectsCards";
 import ProjectCard from "../components/ProjectCard";
 
 const Content = () => {
-  const contentStyle = {
-    backgroundColor: "#C6BEEE",
-    textAlign: "center",
-    paddingTop: "50px",
-  };
-
   return (
     <>
-      <div style={contentStyle}>
+      <div className="bg-indigo-900">
         <AddProjectForm />
         {/* <ListAllProjectsCards /> */}
         <ProjectCard />
