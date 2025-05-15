@@ -15,15 +15,6 @@ const ProjectCard = () => {
               <h2 className="text-xl font-bold mb-1">Card {i + 1}</h2>
             </div>
           ))}
-          {/* <img 
-            className="card-img-style"
-            src="https://img.itch.zone/aW1nLzU1MDU5MDMucG5n/315x250%23c/nAHQD7.png"
-            alt="Project Image"
-          />
-
-          <div className="card-content-style">
-            <h2 className="text-lg font-bold">Título do Projeto</h2>
-          </div>*/}
         </div>
       </div>
     </>
