@@ -51,8 +51,24 @@ const AddProjectForm = () => {
   return (
     <>
       <div>
-        <h1>Projects</h1>
-        <button onClick={() => setModalIsOpen(true)}>Add Projects</button>
+        <h1 className="text-2xl font-bold pt-5 flex justify-center text-white">
+          Projects
+        </h1>
+        <div className="m-10 flex justify-center">
+          <h2 className="m-4 min-w-80 flex text-white">
+            Our portfolio includes diverse projects, ranging from mobile games
+            and educational tools to virtual reality applications. Recent
+            projects include a hybrid visual novel, biomedical training software
+            using VR, and several engaging mobile games that prioritize user
+            experience and cross-platform compatibility.
+          </h2>
+          <button
+            className="max-h-16 min-w-30 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            onClick={() => setModalIsOpen(true)}
+          >
+            Add Projects
+          </button>
+        </div>
 
         {ModalIsOpen && (
           <div
@@ -60,13 +76,18 @@ const AddProjectForm = () => {
             onClick={() => setModalIsOpen(false)}
           >
             <div
-              className="modal-styles-content"
+              className="bg-white w-full max-w-lg rounded-2xl p-6 relative"
               onClick={(e) => e.stopPropagation()}
             >
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Game info  */}
                 <div>
-                  <label for="project_name">Project name:</label>
+                  <label
+                    for="project_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Project name:
+                  </label>
                   <input
                     type="text"
                     id="project_name"
@@ -74,6 +95,7 @@ const AddProjectForm = () => {
                     value={formData.project_name}
                     onChange={handleChange}
                     required
+                    className="mt-1 w-full border border-b-gray-950 rounded-lg px-4 py-2"
                   ></input>
                 </div>
                 <div>
@@ -143,8 +165,13 @@ const AddProjectForm = () => {
                     required
                   ></input>
                 </div>
-                <div>
-                  <button type="submit">Add Project</button>
+                <div className="justify-self-center">
+                  <button
+                    type="submit"
+                    className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  >
+                    Add Project
+                  </button>
                 </div>
               </form>
 
