@@ -107,7 +107,7 @@ const deleteGame = async (req: Request, res: Response) => {
 
     res.status(202).json({ message: `Dados de jogo com id ${id} apagados com sucesso.` });
   } catch (error) {
-    res.status(500).json({ mesage: `Erro ao apagar dados de pessoa. Erro: ${error}` });
+    res.status(500).json({ mesage: `Erro ao apagar dados de jogo. Erro: ${error}` });
   }
 };
 
