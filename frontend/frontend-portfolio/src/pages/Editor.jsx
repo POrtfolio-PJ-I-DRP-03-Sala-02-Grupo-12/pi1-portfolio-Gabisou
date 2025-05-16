@@ -1,11 +1,7 @@
-import Header from "../components/Header";
-
 const Editor = () => {
   return (
     <>
-      <div>
-        <Header />
-      </div>
+      <div>aaa</div>
     </>
   );
 };
