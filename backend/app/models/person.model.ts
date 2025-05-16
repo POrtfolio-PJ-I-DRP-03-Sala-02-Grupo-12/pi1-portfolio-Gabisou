@@ -29,11 +29,14 @@ const findById = async (idToSearch: number): Promise<IPerson | null> => {
 
 const findByUserName = async (userName: string): Promise<IPerson | null> => {
     try {
+      userName = userName.replace(/"/g, '');
       const [rows]: [RowDataPacket[], FieldPacket[]] = await connection.query(
-        `SELECT * FROM people WHERE user_name = ?;
+        `
+          SELECT * FROM people
+            WHERE LOWER(user_name) = TRIM(LOWER(?));
         `,
-        [userName],
-      );
+        [userName]
+      );      
 
       if (!rows[0] || rows.length === 0) return null;
       
@@ -69,15 +72,26 @@ const updatePerson = async (personToUpdate: IPerson, id: number): Promise<Result
   try {
     const { name, userName, password } = personToUpdate;
 
-    const [result]: [ResultSetHeader, FieldPacket[]] = await connection.query(
-      `
-        UPDATE people
-        SET name = ?, user_name = ?, password = ?
-        WHERE id = ?;
-      `,
-      [name, userName, password, id]
-    );
-
+    const [result]: [ResultSetHeader, FieldPacket[]] = (!password || password.length === 0)
+    ?
+      await connection.query(
+        `
+          UPDATE people
+          SET name = ?, user_name = ?
+          WHERE id = ?;
+        `,
+        [name, userName, id]
+      )
+    :
+      await connection.query(
+        `
+          UPDATE people
+          SET name = ?, user_name = ?, password = ?
+          WHERE id = ?;
+        `,
+        [name, userName, password, id]
+      );
+      
     if (!result) return null;
 
     return result;

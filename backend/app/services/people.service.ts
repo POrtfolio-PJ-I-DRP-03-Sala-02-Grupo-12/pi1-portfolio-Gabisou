@@ -76,8 +76,6 @@ const updatePerson = async (personToUpdate: IPerson, id: number): Promise<Result
     .updatePerson(personToUpdate, id);
 
     if (!updatedPerson) return `Não foi possível alterar os dados da pessoa com o id ${id}`;
-
-    console.log(updatedPerson);
     
     return updatedPerson;
   } catch (error) {
@@ -92,8 +90,6 @@ const deletePerson = async (id: number): Promise<ResultSetHeader | string> => {
     if (!excludedPerson) {
       return `Não foi possível excluir dados da pessoa com o id ${id}`;
     }
-
-    console.log(excludedPerson);
     
     return excludedPerson;
   } catch (error) {
