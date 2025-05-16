@@ -53,8 +53,6 @@ const updateGameImage = async (imageToUpdate: IGameImage, id: number): Promise<R
     .updateImage(imageToUpdate, id);
 
     if (!updatedImage) return `Não foi possível alterar os dados da imagem com o id ${id}`;
-
-    console.log(updatedImage);
     
     return updatedImage;
   } catch (error) {
@@ -69,8 +67,6 @@ const deleteGameImage = async (id: number): Promise<ResultSetHeader | string> =>
     if (!excludedImage) {
       return `Não foi possível excluir dados da imagem com o id ${id}`;
     }
-
-    console.log(excludedImage);
     
     return excludedImage;
   } catch (error) {
