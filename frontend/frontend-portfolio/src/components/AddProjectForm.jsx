@@ -71,11 +71,11 @@ const AddProjectForm = () => {
 
         {ModalIsOpen && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-indigo-500 bg-opacity-50"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-500 bg-opacity-50"
             onClick={() => setModalIsOpen(false)}
           >
             <div
-              className="bg-stone-800 border-2 border-stone-500 w-full max-w-lg rounded-2xl p-6 relative"
+              className="bg-slate-600 border-2 border-stone-500 w-full max-w-lg rounded-2xl p-6 relative"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-end">
@@ -212,7 +212,7 @@ const AddProjectForm = () => {
                 <div className="justify-self-center">
                   <button
                     type="submit"
-                    className="mt-3 px-6 py-1 bg-indigo-600 text-stone-100 border-1 border-stone-500 rounded-lg hover:bg-indigo-800"
+                    className="mt-3 px-6 py-1 bg-stone-800 text-stone-100 border-1 border-stone-500 rounded-lg hover:bg-stone-950"
                   >
                     Add Project
                   </button>
