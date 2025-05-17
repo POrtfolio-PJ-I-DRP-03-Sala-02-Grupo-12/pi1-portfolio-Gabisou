@@ -15,4 +15,6 @@ app.use((req, _res, next) => {
     next();
 });
 app.use(index_routes_1.peopleRouter);
+app.use(index_routes_1.gamesRouter);
+app.use(index_routes_1.gameImagesRouter);
 exports.default = app;

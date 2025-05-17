@@ -33,6 +33,10 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.peopleController = void 0;
+exports.gameImagesController = exports.gamesController = exports.peopleController = void 0;
 const peopleController = __importStar(require("./people.controller"));
 exports.peopleController = peopleController;
+const gamesController = __importStar(require("./games.controller"));
+exports.gamesController = gamesController;
+const gameImagesController = __importStar(require("./games.images.controller"));
+exports.gameImagesController = gameImagesController;

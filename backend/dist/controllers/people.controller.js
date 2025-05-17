@@ -140,7 +140,7 @@ const deletePerson = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             res.status(400).json({ message: exclusionTry });
             return;
         }
-        res.status(202).json({ message: "Dados de pessoa apagados com sucesso.", person: personToExclude });
+        res.status(202).json({ message: `Dados de pessoa com id ${id} apagados com sucesso.` });
     }
     catch (error) {
         res.status(500).json({ mesage: `Erro ao apagar dados de pessoa. Erro: ${error}` });
