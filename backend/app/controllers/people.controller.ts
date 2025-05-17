@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { peopleService } from "../services";
 import IPerson from "../interfaces/IPerson";
+import ILogin from "../interfaces/ILogin";
 
 const findAllPeople = async (req: Request, res: Response) => {
   try {
@@ -161,6 +162,56 @@ const deletePerson = async (req: Request, res: Response) => {
   }
 };
 
+const login = async (req: Request, res: Response) => {
+  try {
+    const person: ILogin = req.body;
+
+    const personLogged = await peopleService.login(person);
+
+    if (typeof personLogged === "string") {
+      res.status(403).json({ message: personLogged });
+      return;
+    }
+
+    res.status(200).json({
+      message: `Login de usuário ${personLogged.userName} feito com sucesso`,
+      person: personLogged
+    });
+  } catch (error) {
+    res.status(500)
+      .json({
+        message: `Erro no servidor ao tentar efetuar login. Erro: ${error}`
+      });
+  }
+};
+
+const testTokenIsActive = async (req: Request, res: Response) => {
+  try {
+    const token = req.headers.authorization;
+
+    if (!token || token.length === 0) {
+      res.status(400).json({ message: "Token não encontrado na requisição" });
+      return;
+    }
+
+    const tokenData = await peopleService.testTokenIsActive(token);
+    if (typeof tokenData === "string") {
+      res.status(403)
+        .json({ message: tokenData });
+    }
+
+    res.status(200).json({
+      message: "O token está ativo.",
+      token: tokenData
+    });
+  } catch (error) {
+    res.status(500)
+      .json({
+        message: `Erro no servidor ao verificar se token está ativo. Erro: ${error}`
+      });
+  }
+};
+
 export {
   findAllPeople,
   findPersonById,
@@ -168,4 +219,6 @@ export {
   createNewPerson,
   updatePerson,
   deletePerson,
+  login,
+  testTokenIsActive,
 };
