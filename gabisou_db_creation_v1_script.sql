@@ -34,7 +34,8 @@ CREATE TABLE IF NOT EXISTS `gabisou_db`.`people` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(75) NOT NULL,
   `user_name` VARCHAR(20) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(75) NOT NULL,
+  `role`VARCHAR(15) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_name_UNIQUE` (`user_name` ASC) VISIBLE)
 ENGINE = InnoDB;
