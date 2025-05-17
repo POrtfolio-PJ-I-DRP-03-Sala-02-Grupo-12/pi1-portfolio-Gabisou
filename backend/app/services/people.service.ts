@@ -1,6 +1,18 @@
 import { ResultSetHeader } from "mysql2";
 import IPerson from "../interfaces/IPerson";
 import { personModel } from "../models";
+import * as bCrypt from "bcryptjs";
+import IPersonToRegister from "../interfaces/IPersonToRegister";
+import { generate, verifyToken } from "../helpers/jsonWebToken";
+import ILoggedPerson from "../interfaces/ILoggedPerson";
+import ILogin from "../interfaces/ILogin";
+import IToken from "../interfaces/IToken";
+
+const encryptPassword = async (password: string): Promise<string> => {
+  const encryptedPassword = await bCrypt.hash(password, 10);
+
+  return encryptedPassword;
+};
 
 const findAllPeople = async (): Promise<IPerson[] | string> => {
   try {
@@ -51,9 +63,31 @@ const findPersonByUserName = async (userName: string): Promise<IPerson | string>
   }
 };
 
-const createNewPerson = async (person: IPerson): Promise<IPerson | string> => {
+const findByUserNameToLogin = async (userName: string): Promise<ILogin | string> => {
   try {
-    const newPerson: IPerson | null = await personModel.createNewPerson(person);
+    const person: IPerson | null = await personModel.findByUserName(userName);
+
+    if (!person || person === null) {
+      return `Não conseguimos encontrar a pessoa com o nome de usuária ${userName}`;
+    }
+
+    return person as ILogin;
+  } catch (error) {
+    return `Ocorreu um erro na busca: ${error}`;
+  }
+};
+
+const createNewPerson = async (person: IPersonToRegister): Promise<ILoggedPerson | string> => {
+  try {
+    person = {
+      ...person,
+      password: await encryptPassword(person.password),
+    };
+
+    const newPerson: IPerson | null = await personModel.createNewPerson({
+      ...person,
+      id: 0
+    });
 
     if (!newPerson || !newPerson.id || newPerson === null) {
       return `Não foi possível cadastrar a pessoa com os seguintes dados:
@@ -62,9 +96,21 @@ const createNewPerson = async (person: IPerson): Promise<IPerson | string> => {
       `;
     }
 
+    const token: string = await generate({
+      id: newPerson.id,
+      name: newPerson.name,
+      userName: newPerson.userName,
+      role: newPerson.role,
+    });
+
     delete newPerson.password;
 
-    return newPerson;
+    const personWithToken: ILoggedPerson = {
+      ...newPerson,
+      token,
+    };
+
+    return personWithToken;
   } catch (error) {
     return `Ocorreu um erro no registro de novo usuário: ${error}`;
   }
@@ -97,6 +143,63 @@ const deletePerson = async (id: number): Promise<ResultSetHeader | string> => {
   }
 };
 
+const login = async (personData: ILogin): Promise<ILoggedPerson | string> => {
+  try {
+    if (
+      !personData
+      || !personData.userName
+      || !personData.password
+    ) {
+      return "É necessário informar nome de usuário e senha para efetuar login";
+    }
+
+    personData = {
+      ...personData,
+      password: await encryptPassword(personData.password),
+    };
+
+    let person: ILogin | string = await findByUserNameToLogin(personData.userName);
+
+    if (!person || person === null) {
+      return `Não foi possível encontrar a pessoa com o nome de usuária ${personData.userName}`;
+    }
+
+    if (typeof person === "string") return person;
+
+    const passwordMatch = await bCrypt.compare(personData.password, person.password);
+    if (!passwordMatch) return "Dados incorretos, tente novamente.";
+
+    const token: string = await generate({
+      id: person.id,
+      name: person.name,
+      userName: person.userName,
+      role: person.role,
+    });
+
+    const loggedPersonToReturn: ILoggedPerson = {
+      id: person.id,
+      name: person.name,
+      userName: person.userName,
+      token,
+    }
+
+    return loggedPersonToReturn;
+  } catch (error) {
+    return `Ocorreu um erro no servidor ao efetuar login. ${error}`;
+  }
+};
+
+const testTokenIsActive = async (token: string): Promise<IToken | string> => {
+  try {
+    const decodedToken = await verifyToken(token);
+    if (!decodedToken) return "Token inválido.";
+
+    return decodedToken;
+  } catch (error) {
+    return `Ocorreu um erro ao verificar validade do token. ${error}`;
+  }
+};
+
 export {
   findAllPeople,
   findPersonById,
@@ -104,4 +207,6 @@ export {
   createNewPerson,
   updatePerson,
   deletePerson,
+  login,
+  testTokenIsActive,
 };

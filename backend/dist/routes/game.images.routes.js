@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const controllers_1 = require("../controllers");
+const gameImagesRouter = (0, express_1.Router)();
+gameImagesRouter.get("/games/images/", controllers_1.gameImagesController.findAllGameImages);
+gameImagesRouter.get("/games/images/:id", controllers_1.gameImagesController.findGameImageById);
+gameImagesRouter.post("/games/images/", controllers_1.gameImagesController.createNewImage);
+gameImagesRouter.put("/games/images/:id", controllers_1.gameImagesController.updateGameImage);
+gameImagesRouter.delete("/games/images/:id", controllers_1.gameImagesController.deleteGameImage);
+exports.default = gameImagesRouter;

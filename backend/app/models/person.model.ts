@@ -48,20 +48,20 @@ const findByUserName = async (userName: string): Promise<IPerson | null> => {
 
 const createNewPerson = async (person: IPerson): Promise<IPerson | null> => {
   try {
-    const { name, userName, password } = person;
+    const { name, userName, role, password } = person;
 
     const [result]: [ResultSetHeader, FieldPacket[]] = await connection.query(
-      `INSERT INTO people (name, user_name, password)
-        VALUES (?, ?, ?);
+      `INSERT INTO people (name, user_name, role, password)
+        VALUES (?, ?, ?, ?);
       `,
-      [name, userName, password]
+      [name, userName, role, password]
     );
 
     if (!result) return null
 
     return {
-      id: result.insertId,
       ...person,
+      id: result.insertId,
     };
   } catch (error) {
     throw new Error((error as Error).message)

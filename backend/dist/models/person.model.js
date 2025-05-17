@@ -57,7 +57,7 @@ const createNewPerson = (person) => __awaiter(void 0, void 0, void 0, function* 
       `, [name, userName, password]);
         if (!result)
             return null;
-        return Object.assign({ id: result.insertId }, person);
+        return Object.assign(Object.assign({}, person), { id: result.insertId });
     }
     catch (error) {
         throw new Error(error.message);
