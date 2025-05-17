@@ -1,23 +1,49 @@
-import React, { useState } from "react";
-
-const ProjectCard = () => {
+const ProjectCard = ({ project, isLoggedIn, onEdit, onDelete, onClick }) => {
   return (
-    <>
-      <div className="flex justify-center p-4 bg-gabisou-primary min-h-screen">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl w-full">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="bg-neutral-900 rounded-lg shadow">
-              <img
-                src={`https://picsum.photos/seed/card${i}/600/300`}
-                alt={`Imagem do Card ${i + 1}`}
-                className="w-full h-48 object-cover"
-              />
-              <h2 className="text-xl font-bold mb-1">Card {i + 1}</h2>
-            </div>
+    <div
+      onClick={onClick}
+      className="bg-stone-800 m-5 shadow-md rounded-lg overflow-hidden relative hover:shadow-xl transition cursor-pointer"
+    >
+      <img
+        src={project.cover}
+        alt={`Cover for ${project.title}`}
+        className="w-full aspect-video object-cover"
+      />
+
+      <div className="p-4">
+        <h2 className="text-xl font-bold text-stone-100">{project.title}</h2>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {project.tags.map((tag, idx) => (
+            <span
+              key={idx}
+              className="bg-blue-100 text-blue-600 text-xs font-medium px-2 py-1 rounded"
+            >
+              {tag}
+            </span>
           ))}
         </div>
       </div>
-    </>
+
+      {isLoggedIn && (
+        <div
+          className="absolute top-2 right-2 flex gap-2 z-10"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            className="text-sm text-stone-100 hover:text-stone-400 cursor-pointer"
+            onClick={() => onEdit(project)}
+          >
+            ✏️
+          </button>
+          <button
+            className="text-sm text-stone-100 hover:text-stone-400 cursor-pointer"
+            onClick={() => onDelete(project)}
+          >
+            🗑️
+          </button>
+        </div>
+      )}
+    </div>
   );
 };
 
