@@ -1,8 +1,8 @@
-export default interface IPerson {
+export default interface ILoggedPerson {
     id: number;
     name: string;
     userName: string;
     user_name?: string;
-    role: string;
-    password?: string;
+    role?: string;
+    token: string;
 }
