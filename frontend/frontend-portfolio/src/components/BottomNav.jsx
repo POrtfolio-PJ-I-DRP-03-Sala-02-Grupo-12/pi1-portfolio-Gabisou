@@ -15,7 +15,7 @@ const BottomNav = () => {
             className="h-full p-2 flex items-center justify-center"
           >
             <img
-              src="/logo.png"
+              src="../assets/img/gabisoulogo.png"
               alt="Gabisou Logo"
               className="max-w-[60px] sm:max-w-[120px] h-auto"
             />

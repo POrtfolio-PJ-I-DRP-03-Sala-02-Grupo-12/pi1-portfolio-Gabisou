@@ -1,4 +1,4 @@
-export const login = () => {
+/*export const login = () => {
   localStorage.setItem("user", JSON.stringify({ username: "admin" }));
 };
 
@@ -8,4 +8,4 @@ export const logout = () => {
 
 export const isLoggedIn = () => {
   return !!localStorage.getItem("user");
-};
+};*/
