@@ -1,22 +1,31 @@
-//import { useState } from 'react'
-//import './App.css'
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Editor from "./pages/Editor";
-import BottomNav from "./components/BottomNav";
+import ProtectedRoute from "./components/ProtectedRoute";
+import BottomNav from "./components/BottomNav"; // ✅ added
 
-const App = () => {
+function App() {
   return (
-    <div>
+    <div className="min-h-screen bg-gabisou-primary pb-16">
+      {" "}
+      {/* ✅ pb-16 makes room for navbar */}
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/projects" element={<Home />} /> {/* Optional alias */}
         <Route path="/login" element={<Login />} />
-        <Route path="/editor" element={<Editor />} />
+        <Route
+          path="/editor"
+          element={
+            <ProtectedRoute>
+              <Editor />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
-      <BottomNav />
+      <BottomNav /> {/* ✅ render the bottom nav */}
     </div>
   );
-};
+}
 
 export default App;
