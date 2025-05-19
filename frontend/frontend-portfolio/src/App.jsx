@@ -2,8 +2,9 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Editor from "./pages/Editor";
-import ProtectedRoute from "./components/ProtectedRoute";
 import BottomNav from "./components/BottomNav"; // ✅ added
+import { SignedIn, SignedOut } from "@clerk/clerk-react";
+import { Navigate } from "react-router-dom";
 
 function App() {
   return (
@@ -17,9 +18,15 @@ function App() {
         <Route
           path="/editor"
           element={
-            <ProtectedRoute>
-              <Editor />
-            </ProtectedRoute>
+            <>
+              <SignedIn>
+                <Editor />
+              </SignedIn>
+
+              <SignedOut>
+                <Navigate to="/" replace />;
+              </SignedOut>
+            </>
           }
         />
       </Routes>
