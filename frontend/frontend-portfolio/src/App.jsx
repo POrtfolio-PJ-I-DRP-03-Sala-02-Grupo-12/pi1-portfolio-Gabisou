@@ -14,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projects" element={<Home />} /> {/* Optional alias */}
+        <Route path="*" element={<Home />} /> {/* Fallback redirect */}
         <Route path="/login" element={<Login />} />
         <Route
           path="/editor"
