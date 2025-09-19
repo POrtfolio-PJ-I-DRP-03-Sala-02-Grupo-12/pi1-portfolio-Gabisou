@@ -39,12 +39,14 @@ const ProjectViewerModal = ({ visible, onClose, project }) => {
         <div className="flex flex-col sm:flex-row gap-4 mb-4">
           <img
             src={project.cover}
-            alt="Main cover"
+            //alt="Main cover"
+            alt={project.coverDescription}
             className="w-full sm:w-1/2 rounded-lg object-cover"
           />
           <img
             src={project.cover2}
-            alt="Second cover"
+            //alt="Second cover"
+            alt={project.cover2Description}
             className="w-full sm:w-1/2 rounded-lg object-cover"
           />
         </div>

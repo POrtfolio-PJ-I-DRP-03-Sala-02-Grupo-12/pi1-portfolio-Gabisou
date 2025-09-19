@@ -10,7 +10,9 @@ const ProjectModal = ({
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState("");
   const [cover, setCover] = useState("");
+  const [coverDescription, setCoverDescription] = useState("");
   const [cover2, setCover2] = useState("");
+  const [cover2Description, setCover2Description] = useState("");
   const [description, setDescription] = useState("");
   const [linkLabel, setLinkLabel] = useState("");
   const [linkUrl, setLinkUrl] = useState("");
@@ -20,7 +22,9 @@ const ProjectModal = ({
       setTitle(project.title || "");
       setTags(project.tags?.join(", ") || "");
       setCover(project.cover || "");
+      setCoverDescription(project.coverDescription || "");
       setCover2(project.cover2 || "");
+      setCover2Description(project.cover2Description || "");
       setDescription(project.description || "");
       setLinkLabel(project.linkLabel || "");
       setLinkUrl(project.linkUrl || "");
@@ -28,7 +32,9 @@ const ProjectModal = ({
       setTitle("");
       setTags("");
       setCover("");
+      setCoverDescription("");
       setCover2("");
+      setCover2Description("");
       setDescription("");
       setLinkLabel("");
       setLinkUrl("");
@@ -59,7 +65,9 @@ const ProjectModal = ({
       tags: tagList,
       description,
       cover,
+      coverDescription,
       cover2,
+      cover2Description,
       linkLabel,
       linkUrl,
     });
@@ -112,12 +120,34 @@ const ProjectModal = ({
 
           <div>
             <label className="block text-sm font-medium text-stone-100">
+              Cover Image Description
+            </label>
+            <input
+              className="w-full px-3 py-2 rounded bg-stone-100"
+              value={coverDescription}
+              onChange={(e) => setCoverDescription(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-stone-100">
               Second Image URL
             </label>
             <input
               className="w-full px-3 py-2 rounded bg-stone-100"
               value={cover2}
               onChange={(e) => setCover2(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-stone-100">
+              Second Image Description
+            </label>
+            <input
+              className="w-full px-3 py-2 rounded bg-stone-100"
+              value={cover2Description}
+              onChange={(e) => setCover2Description(e.target.value)}
             />
           </div>
 
